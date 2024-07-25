@@ -1,0 +1,106 @@
+// ==UserScript==
+// @name         Appsheet Enum Quickie
+// @namespace    http://tampermonkey.net/
+// @version      1.1.0
+// @description  try to take over the world!
+// @author       Roy Espinosa
+// @match        *appsheet*
+// @include      *appsheet*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=appsheet.com
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function simulateKeypress(char) {
+        // Create a new KeyboardEvent for keydown
+        let keydownEvent = new KeyboardEvent('keydown', {
+            key: char,
+            keyCode: char.charCodeAt(0),
+            which: char.charCodeAt(0),
+            bubbles: true,
+            cancelable: true
+        });
+
+        // Create a new KeyboardEvent for keyup
+        let keyupEvent = new KeyboardEvent('keyup', {
+            key: char,
+            keyCode: char.charCodeAt(0),
+            which: char.charCodeAt(0),
+            bubbles: true,
+            cancelable: true
+        });
+
+        // Dispatch the events to the focused element
+        document.activeElement.dispatchEvent(keydownEvent);
+        document.activeElement.dispatchEvent(keyupEvent);
+
+        // Append the character to the value of the focused element (simulate the actual input)
+        document.activeElement.value += char;
+
+        // Small delay to simulate typing speed
+        //await sleep(10);
+    }
+
+    async function typeString(str) {
+        for (let char of str) {
+            await simulateKeypress(char);
+        }
+    }
+
+
+    async function waitForDeletePress() {
+        return new Promise(resolve => {
+            function onDeletePress(event) {
+                if (event.key === 'Backspace') {
+                    document.removeEventListener('keydown', onDeletePress);
+                    resolve();
+                }
+            }
+            document.addEventListener('keydown', onDeletePress);
+        });
+    }
+
+
+    // this changes basic stuff...
+    async function executeSteps() {
+
+
+        var list = ["Task Definition", "Resource Allocation", "Schedule Creation", "Initial Site Inspection", "Material Procurement", "Tool Preparation", "Safety Precautions and Planning", "Pre-Task Briefing", "Task Commencement", "Ongoing Task Progress", "On-Site Adjustments", "Task Milestones", "Mid-Task Inspection", "Compliance Check", "Quality Control Measures", "Testing and Validation", "Task Finalization", "Final Inspection", "Documentation of Work Done", "Approval and Sign-Off", "Cleanup and Restoration", "Tool and Equipment Return", "Post-Task Review", "Reporting and Feedback", "Scheduled Maintenance", "Unscheduled Repairs", "Performance Monitoring", "Follow-Up Inspections"];
+        var listLength = list.length;
+        var paper = document.getElementsByClassName('Content')[0];
+        var addButton = paper.getElementsByTagName('button')[2];
+        var listItems = paper.getElementsByClassName('ListItems')[0].children;
+
+        for (var i = 0; i < listLength; i++) {
+            addButton.click();
+        };
+        await sleep(1500);
+        //console.log('1000')
+
+
+        for (var j = 0; j < list.length; j++) {
+            listItems[j].children[1].children[0].children[0].focus()
+            await sleep(50)
+            await typeString(list[j] + "X"); // delete this X later.
+            await waitForDeletePress(); // Wait for delete key press before moving to the next item
+            await sleep(50)
+            console.log('1000');
+
+        }
+    };
+
+
+    document.addEventListener('keydown', async function(event) {
+        if (event.ctrlKey && event.key === ',') {
+            await executeSteps();
+        }
+    });
+
+
+})();
