@@ -1,7 +1,9 @@
-var newIconUrl = 'https://github.com/VivaLaRoy/SteadGlobal/blob/main/Tampermonkey/send.png?raw=true';
+var standardColumnsIcon = 'https://github.com/VivaLaRoy/SteadGlobal/blob/main/Tampermonkey/send.png?raw=true';
+var enumListIcon = 'https://github.com/VivaLaRoy/SteadGlobal/blob/main/Tampermonkey/list.png?raw=true';
+
 
 // Function to duplicate an element by its class name
-function duplicateElementByClassName(className) {
+function duplicateElementByClassName(className, newIconUrl, newIconID, newIconTitle) {
     // Find the element by its class name
     var elementToDuplicate = document.querySelector(`.${className}`);
 
@@ -11,8 +13,8 @@ function duplicateElementByClassName(className) {
 
         // Create a new element from the clone to remove any event listeners
         var newElement = clonedElement.cloneNode(true);
-        newElement.id = "clonedElement";
-        newElement.title = "Standardized Columns";
+        newElement.id = newIconID;
+        newElement.title = newIconTitle;
         // Set the desired classes
         newElement.className = 'MuiButtonBase-root MuiIconButton-root';
 
@@ -32,7 +34,7 @@ function duplicateElementByClassName(className) {
             // Create a new img element
             var imgElement = document.createElement('img');
             imgElement.src = newIconUrl;
-            imgElement.style.width = '24px';  // Adjust size as needed
+            imgElement.style.width = '24px'; // Adjust size as needed
             imgElement.style.height = '24px'; // Adjust size as needed
             imgElement.style.objectFit = 'contain'; // Ensure the entire image is visible within the bounds
 
@@ -58,5 +60,6 @@ function organizeColumns() {
 // Example usage: duplicate the element with the class 'MuiButtonBase-root'
 // Ensure the DOM is fully loaded before trying to duplicate the element
 window.addEventListener('load', function() {
-    duplicateElementByClassName('MuiButtonBase-root');
+    duplicateElementByClassName('MuiButtonBase-root', standardColumnsIcon, "StandardColumnsButton", "Click to Standardize Columns");
+    duplicateElementByClassName('MuiButtonBase-root', enumListIcon, "enumListButton", "Click to automate ENUM Lists")
 });
