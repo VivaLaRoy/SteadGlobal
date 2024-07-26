@@ -235,10 +235,9 @@
     window.addEventListener('load', function() {
         setTimeout(function() {
             const topNav = document.querySelector('.topNav');
-            topNav.style.zIndex = '9999'; // Ensure it floats on top of everything
-
             duplicateElementByClassName('MuiButtonBase-root', standardColumnsIcon, "StandardColumnsButton", "Click to Standardize Columns", executeStandardList);
             duplicateElementByClassName('MuiButtonBase-root', enumListIcon, "enumListButton", "Click to automate ENUM Lists", executeEnumList);
+            topNav.style.zIndex = '9999'; // Ensure it floats on top of everything
         }, 5000); // Delay in milliseconds
     });
 
