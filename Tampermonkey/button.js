@@ -36,6 +36,7 @@
             var newElement = clonedElement.cloneNode(true);
             newElement.id = newIconID;
             newElement.title = newIconTitle;
+
             // Set the desired classes
             newElement.className = 'MuiButtonBase-root MuiIconButton-root';
 
@@ -233,6 +234,9 @@
     // Example usage: duplicate the element with the class 'MuiButtonBase-root'
     window.addEventListener('load', function() {
         setTimeout(function() {
+            const topNav = document.querySelector('.topNav');
+            topNav.style.zIndex = '9999'; // Ensure it floats on top of everything
+
             duplicateElementByClassName('MuiButtonBase-root', standardColumnsIcon, "StandardColumnsButton", "Click to Standardize Columns", executeStandardList);
             duplicateElementByClassName('MuiButtonBase-root', enumListIcon, "enumListButton", "Click to automate ENUM Lists", executeEnumList);
         }, 5000); // Delay in milliseconds
